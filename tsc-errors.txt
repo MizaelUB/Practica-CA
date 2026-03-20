@@ -1,0 +1,2 @@
+src/context/AuthContext.tsx(1,8): error TS6133: 'React' is declared but its value is never read.
+src/pages/Login.tsx(3,10): error TS6133: 'Shield' is declared but its value is never read.
