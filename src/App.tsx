@@ -26,35 +26,12 @@ function App() {
             {/* Protected Routes (Authenticated users only) */}
             <Route element={<ProtectedRoute />}>
               <Route element={<Layout />}>
+                {/* Main Launcher Dashboard */}
+                <Route path="/" element={<Dashboard />} />
                 
-                <Route element={<ProtectedRoute requiredPermission="dashboard" />}>
-                  <Route path="/" element={<Dashboard />} />
-                </Route>
-
-                <Route element={<ProtectedRoute requiredPermission="crm" />}>
-                  <Route path="/customers" element={<Customers />} />
-                </Route>
-
-                <Route element={<ProtectedRoute requiredPermission="sales" />}>
-                  <Route path="/sales" element={<Sales />} />
-                </Route>
-
-                <Route element={<ProtectedRoute requiredPermission="reports" />}>
-                  <Route path="/reports" element={<Reports />} />
-                </Route>
-
-                <Route element={<ProtectedRoute requiredPermission="settings" />}>
-                  <Route path="/settings" element={<Settings />} />
-                </Route>
-
                 {/* Always available to signed in users */}
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/unauthorized" element={<Unauthorized />} />
-
-                {/* Admin Only Route */}
-                <Route element={<ProtectedRoute requiredPermission="admin" />}>
-                  <Route path="/admin" element={<AdminDashboard />} />
-                </Route>
               </Route>
             </Route>
 

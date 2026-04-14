@@ -1,114 +1,118 @@
-import { PenTool, Layers, Settings, Users, ArrowUpRight } from 'lucide-react';
+import { Shield, DollarSign, ShoppingCart, ArrowRight, Lock } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export const Dashboard = () => {
+  const { user } = useAuth();
 
-  const StatCard = ({ icon, title, value, color }: { icon: any, title: string, value: string, color: string }) => (
-    <div className="card" style={{ display: 'flex', alignItems: 'center', padding: '1.5rem', gap: '1.5rem', borderLeft: `4px solid ${color}` }}>
-      <div style={{ color: color }}>
-        {icon}
-      </div>
-      <div>
-        <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 500, letterSpacing: '0.5px' }}>{title}</p>
-        <h3 style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.5rem', fontWeight: 600 }}>{value}</h3>
-      </div>
-    </div>
-  );
+  const modules = [
+    {
+      id: 'admin',
+      name: 'Administración',
+      description: 'Gestión de usuarios, permisos y configuración global.',
+      icon: <Shield size={40} />,
+      color: '#4f46e5',
+      url: 'http://localhost:5173',
+      permission: 'admin'
+    },
+    {
+      id: 'finance',
+      name: 'Finanzas',
+      description: 'Facturación, reportes financieros y contabilidad.',
+      icon: <DollarSign size={40} />,
+      color: '#10b981',
+      url: 'http://localhost:5174',
+      permission: 'finance'
+    },
+    {
+      id: 'sales',
+      name: 'Ventas y CRM',
+      description: 'Gestión de productos, clientes y órdenes de venta.',
+      icon: <ShoppingCart size={40} />,
+      color: '#f97316',
+      url: 'http://localhost:5175',
+      permission: 'sales'
+    }
+  ];
+
+  const handleModuleClick = (url: string) => {
+    // Sincronizar token en sessionStorage/localStorage del otro dominio si fuera necesario
+    // Por ahora simplemente abrimos en pestaña nueva
+    window.open(url, '_blank');
+  };
 
   return (
-    <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto' }}>
-      
-      {/* Dashboard Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <h1 style={{ margin: 0, color: 'var(--primary)', fontWeight: 600, fontSize: '1.5rem' }}>Dashboard 2</h1>
-        <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-          Home <span style={{ margin: '0 0.5rem' }}>&gt;</span> Dashboard 2
-        </div>
-      </div>
+    <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
+      <header style={{ marginBottom: '3rem', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--primary)', marginBottom: '0.5rem' }}>
+          Portal ERP Modular
+        </h1>
+        <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)' }}>
+          Bienvenido, {user?.name}. Selecciona una aplicación para comenzar.
+        </p>
+      </header>
 
-      {/* Top Cards Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '2rem' }}>
-        <StatCard icon={<PenTool size={36} />} title="Total Income" value="953,000" color="#1e88e5" />
-        <StatCard icon={<Layers size={36} />} title="Total Expense" value="236,000" color="#1e88e5" />
-        <StatCard icon={<Settings size={36} />} title="Total Assets" value="987,563" color="#1e88e5" />
-        <StatCard icon={<Users size={36} />} title="Total Staff" value="987,563" color="#1e88e5" />
-      </div>
-
-      {/* Main Charts Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '1.5rem' }}>
-        
-        {/* Large Chart Area Placeholder */}
-        <div className="card" style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ padding: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 500 }}>Sales Overview</h3>
-            <select style={{ padding: '0.4rem', border: '1px solid var(--border-color)', borderRadius: '4px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              <option>January 2021</option>
-            </select>
-          </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+        {modules.map((mod) => {
+          const hasAccess = user?.moduleAccess?.includes(mod.permission);
           
-          <div style={{ background: '#1e88e5', padding: '1.5rem', color: 'white', display: 'flex', gap: '4rem' }}>
-            <div>
-              <p style={{ margin: 0, opacity: 0.9, fontSize: '0.8rem', fontWeight: 500, textTransform: 'uppercase' }}>Total Sales</p>
-              <h2 style={{ margin: 0, fontWeight: 700 }}>$10,345</h2>
-            </div>
-            <div>
-              <p style={{ margin: 0, opacity: 0.9, fontSize: '0.8rem', fontWeight: 500, textTransform: 'uppercase' }}>This Month</p>
-              <h2 style={{ margin: 0, fontWeight: 700 }}>$7,589</h2>
-            </div>
-            <div>
-              <p style={{ margin: 0, opacity: 0.9, fontSize: '0.8rem', fontWeight: 500, textTransform: 'uppercase' }}>This Week</p>
-              <h2 style={{ margin: 0, fontWeight: 700 }}>$1,476</h2>
-            </div>
-          </div>
-
-          <div style={{ padding: '2rem', flex: 1, minHeight: '350px', background: 'white' }}>
-            {/* Mock Chart Area */}
-            <div style={{ width: '100%', height: '100%', borderBottom: '2px solid var(--border-color)', borderLeft: '2px solid var(--border-color)', position: 'relative' }}>
-              <div style={{ position: 'absolute', bottom: '10%', left: '10%', color: 'var(--primary)' }}><ArrowUpRight size={100} strokeWidth={1} style={{ transform: 'rotate(15deg) scale(1.5)', transformOrigin: 'bottom left', opacity: 0.8 }} /></div>
-              <div style={{ position: 'absolute', bottom: '40%', left: '33%', color: 'var(--primary)' }}><ArrowUpRight size={100} strokeWidth={1} style={{ transform: 'rotate(-5deg) scale(1.5)', transformOrigin: 'bottom left', opacity: 0.8 }} /></div>
-              <div style={{ position: 'absolute', bottom: '30%', left: '55%', color: 'var(--primary)' }}><ArrowUpRight size={100} strokeWidth={1} style={{ transform: 'rotate(35deg) scale(1.5)', transformOrigin: 'bottom left', opacity: 0.8 }} /></div>
-            </div>
-          </div>
-        </div>
-
-        {/* Small Chart Area Placeholder */}
-        <div className="card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
-          <h3 style={{ margin: '0 0 2rem 0', fontSize: '1.1rem', fontWeight: 500 }}>Visit Separation</h3>
-          
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            {/* Mock Donut */}
-            <div style={{ 
-              width: '180px', height: '180px', borderRadius: '50%', 
-              border: '25px solid var(--primary)', 
-              borderTopColor: '#26c6da', 
-              borderRightColor: '#7460ee', 
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              marginBottom: '2rem'
-            }}>
-              <h2 style={{ margin: 0, fontWeight: 700 }}>Visits</h2>
-            </div>
-
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem' }}>
-                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Mobile</span>
-                <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>38.5%</span>
+          return (
+            <div 
+              key={mod.id}
+              className="glass"
+              style={{ 
+                padding: '2.5rem', 
+                borderRadius: '20px', 
+                display: 'flex', 
+                flexDirection: 'column',
+                gap: '1.5rem',
+                opacity: hasAccess ? 1 : 0.7,
+                position: 'relative',
+                overflow: 'hidden',
+                transition: 'transform 0.3s ease, border-color 0.3s ease',
+                cursor: hasAccess ? 'pointer' : 'not-allowed',
+                border: `2px solid ${hasAccess ? 'transparent' : 'rgba(239, 68, 68, 0.2)'}`
+              }}
+              onClick={() => hasAccess && handleModuleClick(mod.url)}
+              onMouseEnter={(e) => hasAccess && (e.currentTarget.style.transform = 'translateY(-10px)')}
+              onMouseLeave={(e) => hasAccess && (e.currentTarget.style.transform = 'translateY(0)')}
+            >
+              <div style={{ 
+                width: '80px', 
+                height: '80px', 
+                borderRadius: '16px', 
+                background: `${mod.color}15`, 
+                color: mod.color,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                {mod.icon}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem' }}>
-                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Tablet</span>
-                <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>30.8%</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem' }}>
-                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Desktop</span>
-                <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>7.7%</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Other</span>
-                <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>23.1%</span>
-              </div>
-            </div>
-          </div>
-        </div>
 
+              <div>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  {mod.name}
+                  {!hasAccess && <Lock size={18} color="#ef4444" />}
+                </h3>
+                <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>
+                  {mod.description}
+                </p>
+              </div>
+
+              {hasAccess ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 600, color: mod.color, marginTop: 'auto' }}>
+                  Abrir Aplicación <ArrowRight size={18} />
+                </div>
+              ) : (
+                <div style={{ color: '#ef4444', fontSize: '0.85rem', fontWeight: 600, marginTop: 'auto' }}>
+                  Acceso restringido por el administrador
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 };
+

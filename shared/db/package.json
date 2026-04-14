@@ -1,0 +1,10 @@
+{
+  "name": "shared-db",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Shared database configuration",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "sqlite3": "^6.0.1"
+  }
+}

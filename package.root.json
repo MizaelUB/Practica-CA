@@ -2,9 +2,8 @@
   "name": "erp-modular",
   "version": "2.0.0",
   "description": "Sistema ERP modular con autenticación compartida",
-  "type": "module",
   "scripts": {
-    "install:all": "npm install && cd shared/auth-service && npm install && cd ../../admin/back && npm install && cd ../front && npm install && cd ../../finance/back && npm install && cd ../front && npm install && cd ../../sales/back && npm install && cd ../front && npm install",
+    "install:all": "npm install && cd shared/auth-service && npm install && cd ../.. && cd admin/back && npm install && cd ../front && npm install && cd ../.. && cd finance/back && npm install && cd ../front && npm install && cd ../.. && cd sales/back && npm install && cd ../front && npm install",
     "start:auth": "cd shared/auth-service && npm start",
     "start:admin-back": "cd admin/back && npm start",
     "start:admin-front": "cd admin/front && npm run dev",
@@ -12,8 +11,7 @@
     "start:finance-front": "cd finance/front && npm run dev",
     "start:sales-back": "cd sales/back && npm start",
     "start:sales-front": "cd sales/front && npm run dev",
-    "start:all": "concurrently \"npm run start:auth\" \"npm run start:admin-back\" \"npm run start:admin-front\" \"npm run start:finance-back\" \"npm run start:finance-front\" \"npm run start:sales-back\" \"npm run start:sales-front\"",
-    "reset:db": "cd shared/db && node reset_db.js"
+    "start:all": "concurrently \"npm run start:auth\" \"npm run start:admin-back\" \"npm run start:admin-front\" \"npm run start:finance-back\" \"npm run start:finance-front\" \"npm run start:sales-back\" \"npm run start:sales-front\""
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

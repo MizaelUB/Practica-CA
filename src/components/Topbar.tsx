@@ -33,7 +33,7 @@ export const Topbar = () => {
           </div>
           AdminPro
         </h2>
-        <Menu size={20} color="var(--text-muted)" style={{ cursor: 'pointer' }} />
+        {/* <Menu size={20} color="var(--text-muted)" style={{ cursor: 'pointer' }} /> */}
       </div>
 
       {/* Right side: Icons + Profile */}
